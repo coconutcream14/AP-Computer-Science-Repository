@@ -20,10 +20,10 @@ public class Roomba implements Directions {
 
     // You will need to add many variables!!
 
-
     public int cleanRoom(String worldName, int startX, int startY) {
 
-        // A new Robot should be constructed and assigned to the global (instance) variable named roomba that is declared above.
+        // A new Robot should be constructed and assigned to the global (instance)
+        // variable named roomba that is declared above.
         // Make sure it starts at startX and startY location.
 
         World.readWorld(worldName);
@@ -31,8 +31,8 @@ public class Roomba implements Directions {
         World.setDelay(2);
         roomba = new Robot(startX, startY, East, 0);
 
-
-        /** This section will have all the logic that takes the Robot to every location
+        /**
+         * This section will have all the logic that takes the Robot to every location
          * and cleans up all piles of beepers. Think about ways you can break this
          * large, complex task into smaller, easier to solve problems.
          */
@@ -41,55 +41,62 @@ public class Roomba implements Directions {
         // what is that and why are we getting it?
         int totalBeepers = 0;
         int i = 0;
-        while(true){
-            if(!roomba.nextToABeeper()) {
+        while (true) {
+            if (!roomba.nextToABeeper()) {
                 roomba.move();
             }
-            while(roomba.nextToABeeper()){
+            while (roomba.nextToABeeper()) {
                 roomba.pickBeeper();
                 totalBeepers++;
-            } 
-            if(!roomba.frontIsClear()){
+            }
+            if (!roomba.frontIsClear()) {
                 i++;
             }
-            if(!roomba.frontIsClear()){
-                if(i % 2 == 1){
+            if (!roomba.frontIsClear()) {
+                if (i % 2 == 1) {
                     roomba.turnLeft();
+                    if (!roomba.frontIsClear()) {
+                        break;
+                    }
                     roomba.move();
                     roomba.turnLeft();
-                } else{
+                } else {
                     roomba.turnLeft();
                     roomba.turnLeft();
                     roomba.turnLeft();
+                    if (!roomba.frontIsClear()) {
+                        break;
+                    }
+
                     roomba.move();
                     roomba.turnLeft();
                     roomba.turnLeft();
                     roomba.turnLeft();
-                }    
+                }
             }
-            if(totalBeepers > 58){
+            if (totalBeepers > 58) {
                 break;
             }
-        }    
-/*
-        roomba.move();
-        roomba.move();
-        while (roomba.nextToABeeper()){
-
-            roomba.pickBeeper();
-            totalBeepers++;
         }
+        /*
+         * roomba.move();
+         * roomba.move();
+         * while (roomba.nextToABeeper()){
+         * 
+         * roomba.pickBeeper();
+         * totalBeepers++;
+         * }
+         * 
+         * roomba.move();
+         * 
+         * while (roomba.nextToABeeper()){
+         * 
+         * roomba.pickBeeper();
+         * totalBeepers++;
+         * }
+         */
 
-        roomba.move();
-
-        while (roomba.nextToABeeper()){
-
-            roomba.pickBeeper();
-            totalBeepers++;
-        }
-*/
-
-// This method should return the total number of beepers cleaned up.
+        // This method should return the total number of beepers cleaned up.
         return totalBeepers;
     }
 }
