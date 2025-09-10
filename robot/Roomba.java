@@ -7,10 +7,12 @@ public class Roomba implements Directions {
     // Main method to make this self-contained
     public static void main(String[] args) {
         // LEAVE THIS ALONE!!!!!!
-        String worldName = "robot/basicRoom.wld";
+        //String worldName = "robot/basicRoom.wld";
+        String worldName = "robot/testWorld1.wld";
 
         Roomba cleaner = new Roomba();
-        int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
+        //int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
+        int totalBeepers = cleaner.cleanRoom(worldName, 25, 11);
         System.out.println("Roomba cleaned up a total of " + totalBeepers + " beepers.");
 
     }
@@ -28,7 +30,7 @@ public class Roomba implements Directions {
 
         World.readWorld(worldName);
         World.setVisible(true);
-        World.setDelay(2);
+        World.setDelay(0);
         roomba = new Robot(startX, startY, East, 0);
 
         /**
@@ -41,24 +43,36 @@ public class Roomba implements Directions {
         // what is that and why are we getting it?
         int totalBeepers = 0;
         int i = 0;
+        int max = 0;
+        int numOfBeepers = 0;
+        int numOfPiles = 0;
+        int numOfSpaces = 1;
         while (true) {
+            numOfBeepers = 0;
             if (!roomba.nextToABeeper()) {
                 roomba.move();
+                numOfSpaces++;
             }
             while (roomba.nextToABeeper()) {
                 roomba.pickBeeper();
+                numOfBeepers++;
+                if(numOfBeepers > max){
+                    max = numOfBeepers;
+                }
                 totalBeepers++;
+            }
+            if (numOfBeepers > 0) {
+                numOfPiles++;
             }
             if (!roomba.frontIsClear()) {
                 i++;
-            }
-            if (!roomba.frontIsClear()) {
                 if (i % 2 == 1) {
                     roomba.turnLeft();
                     if (!roomba.frontIsClear()) {
                         break;
                     }
                     roomba.move();
+                    numOfSpaces++;
                     roomba.turnLeft();
                 } else {
                     roomba.turnLeft();
@@ -69,14 +83,12 @@ public class Roomba implements Directions {
                     }
 
                     roomba.move();
+                    numOfSpaces++;
                     roomba.turnLeft();
                     roomba.turnLeft();
                     roomba.turnLeft();
                 }
-            }
-            if (totalBeepers > 58) {
-                break;
-            }
+            }                
         }
         /*
          * roomba.move();
@@ -97,6 +109,9 @@ public class Roomba implements Directions {
          */
 
         // This method should return the total number of beepers cleaned up.
+        System.out.println("The total number of spaces is " + numOfSpaces);
+        System.out.println("The number of piles is " + numOfPiles);
+        System.out.println("The max beepers is " + max);
         return totalBeepers;
     }
 }
