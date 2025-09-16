@@ -7,12 +7,12 @@ public class Roomba implements Directions {
     // Main method to make this self-contained
     public static void main(String[] args) {
         // LEAVE THIS ALONE!!!!!!
-        //String worldName = "robot/basicRoom.wld";
-        String worldName = "robot/testWorld1.wld";
+        String worldName = "robot/basicRoom.wld";
+        //String worldName = "robot/testWorld1.wld";
 
         Roomba cleaner = new Roomba();
-        //int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
-        int totalBeepers = cleaner.cleanRoom(worldName, 25, 11);
+        int totalBeepers = cleaner.cleanRoom(worldName, 7, 6);
+        //int totalBeepers = cleaner.cleanRoom(worldName, 25, 11);
         System.out.println("Roomba cleaned up a total of " + totalBeepers + " beepers.");
 
     }
@@ -47,6 +47,10 @@ public class Roomba implements Directions {
         int numOfBeepers = 0;
         int numOfPiles = 0;
         int numOfSpaces = 1;
+        int street = 0;
+        int avenue = 0;
+        double averagePileSize = 0;
+        double percentDirty = 0;
         while (true) {
             numOfBeepers = 0;
             if (!roomba.nextToABeeper()) {
@@ -58,6 +62,8 @@ public class Roomba implements Directions {
                 numOfBeepers++;
                 if(numOfBeepers > max){
                     max = numOfBeepers;
+                    street = roomba.street();
+                    avenue = roomba.avenue();
                 }
                 totalBeepers++;
             }
@@ -109,9 +115,14 @@ public class Roomba implements Directions {
          */
 
         // This method should return the total number of beepers cleaned up.
+        averagePileSize = totalBeepers / numOfPiles;
+        percentDirty = numOfPiles / numOfSpaces;
         System.out.println("The total number of spaces is " + numOfSpaces);
         System.out.println("The number of piles is " + numOfPiles);
         System.out.println("The max beepers is " + max);
+        System.out.println("The location is (" + street + "," + avenue + ")");
+        System.out.println("The average pile size is "  + averagePileSize); //6.555..
+        System.out.println("The percent dirty " + percentDirty); //0.225
         return totalBeepers;
     }
 }
