@@ -22,7 +22,7 @@ public class CompoundBoolean
     //Code for (!((a > b) || (b > c))) statement (! operator)
     if(!((a > b) || (b > c))){
         // "If a < b OR b < c, then this statement is TRUE"
-        System.out.println("If " + a + " < " + b + " OR " + b " < " + c + ", then this statement is TRUE.");
+        System.out.println("If " + a + " < " + b + " OR " + b + " < " + c + ", then this statement is TRUE.");
     } else{
         System.out.println("Sorry, your numbers didn't meet the condition. Your answer is FALSE.");
     }
