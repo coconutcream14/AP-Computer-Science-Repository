@@ -34,7 +34,7 @@ public class PigLatinTranslator {
         // TODO: Replace this code to correctly translate a single word.
         // Start here first!
         // This is the first place to work.
-        result = input; // delete this line
+        result = input + "ay"; // delete this line
 
         return result;
     }
