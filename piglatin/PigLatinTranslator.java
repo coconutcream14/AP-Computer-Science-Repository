@@ -9,6 +9,13 @@ public class PigLatinTranslator {
         // Curent do-nothing code will return an empty book.
         // Your code will need to call translate(String input) many times.
 
+        int length = input.getLineCount();
+        String line = "";
+        for(int i = 0; i < length; i++){
+            line = translate(input.getLine(i));
+            translatedBook.appendLine(line);
+        } 
+
         return translatedBook;
     }
 
@@ -48,7 +55,7 @@ public class PigLatinTranslator {
 
         //To check for any placements of capitalized letters and keep the index stored if so
         int i = 0;
-        String letter = "";
+        int index = 0;
         int upperCaseCount = 0;
         int length = input.length();
 
@@ -62,7 +69,7 @@ public class PigLatinTranslator {
         if(upperCaseCount == 1){
             for(i = 0; i < length; i++){
                 if(Character.isUpperCase(input.charAt(i))){
-                    letter = String.valueOf(input.charAt(i));
+                    index = i;
                 }
             }
         } else if(upperCaseCount > 1) {
@@ -79,42 +86,38 @@ public class PigLatinTranslator {
         String vowelTest = input.substring(0,1);
 
         String lowerCaseStr = input.toLowerCase(); // Convert to lowercase to handle both cases
-        String vowels = "aeiou";
+        String vowels = "aeiouy";
         int indexOfFirstVowel = 0;
 
         // To check for a word starting with a vowel
-        if(vowelTest.equals("a") || vowelTest.equals("e") || vowelTest.equals("i") || vowelTest.equals("o") || vowelTest.equals("u")){
-            result = input + "ay";
-        } else {
-            // To find the index of where the first vowel in a word is
-            for (i = 0; i < lowerCaseStr.length(); i++) {
-                char currentChar = lowerCaseStr.charAt(i);
-                if (vowels.indexOf(currentChar) != -1) {
-                    indexOfFirstVowel = i; // Return the index of the first vowel found
-                    break;
+        for(i = 0; i < 6; i++){
+            if(vowelTest.indexOf(i) != -1){
+                result = input + "ay";
+            } else {
+                // To find the index of where the first vowel in a word is
+                for (i = 0; i < lowerCaseStr.length(); i++) {
+                    char currentChar = lowerCaseStr.charAt(i);
+                    if (vowels.indexOf(currentChar) != -1) {
+                        indexOfFirstVowel = i; // Return the index of the first vowel found
+                        break;
+                    }
                 }
             }
         }
 
         String firstPart = input.substring(0, indexOfFirstVowel);
         String secondPart = input.substring(indexOfFirstVowel);
-        String letter1 = "";
-        int index = 0;
         String firstPartr = "";
         String secondPartr = "";
         result = secondPart + firstPart;
 
-        if(upperCaseCount == 1){
-            index = 0;
-            for(i = 0; i < length; i++){
-                index = result.indexOf(letter);
-            }
-            letter1 = String.valueOf(Character.toUpperCase(result.charAt(index)));
+        /*if(upperCaseCount == 1){
+            result = result.replace(result.indexOf(index), Character.toUpperCase(result.indexOf(index)));
             firstPartr = result.substring(0, index - 1);
             secondPartr = result.substring(index);
             result = firstPartr + letter1 + secondPartr + "ay";
             return result;
-        }
+        }*/
 
         return result + "ay";
     }
