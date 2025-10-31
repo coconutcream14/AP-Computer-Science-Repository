@@ -37,6 +37,7 @@ public class PigLatinTranslator {
         System.out.println("  -> translateWord('" + input + "')");
 
         String result = "";
+        int length = input.length();
 
         // TODO: Replace this code to correctly translate a single word.
         // Start here first!
@@ -53,73 +54,78 @@ public class PigLatinTranslator {
             return output;
         }
 
+        //To check for punctuation
+        String tail = "";
+        String newInput = "";
+        if(input.substring(length - 1).equals(".")){
+            tail = ".";
+            newInput = input.substring(0, length - 1);
+        } else{
+            newInput = input;
+        }
+        length = newInput.length();
         //To check for any placements of capitalized letters and keep the index stored if so
         int i = 0;
         int index = 0;
         int upperCaseCount = 0;
-        int length = input.length();
 
         for(i = 0; i < length; i++){
-            if(Character.isUpperCase(input.charAt(i))){
+            if(Character.isUpperCase(newInput.charAt(i))){
                 upperCaseCount++;
             }
         }
 //        System.out.println("The uppercase count is" + upperCaseCount);
 
-        if(upperCaseCount == 1){
-            for(i = 0; i < length; i++){
-                if(Character.isUpperCase(input.charAt(i))){
-                    index = i;
-                }
-            }
-        } else if(upperCaseCount > 1) {
-            String [] upperCaseLetterAry  = new String[upperCaseCount];
-            for(i = 0; i < upperCaseCount; i++){
-                for(int j = 0; j < length; j++){
-                    if(Character.isUpperCase(input.charAt(j))){
-                        upperCaseLetterAry[i] = String.valueOf(input.charAt(j));
-                    }
+        int [] upperCaseLetterAry  = new int[upperCaseCount];
+        int j = 0;
+        if(upperCaseCount > 0) {
+            i = 0;
+            for(j = 0; j < length; j++){
+                if(Character.isUpperCase(newInput.charAt(j))){
+                    upperCaseLetterAry[i++] = j;
+                    //continue;
                 }
             }
         } 
 
-        String vowelTest = input.substring(0,1);
+        String firstLetter = newInput.substring(0,1);
 
-        String lowerCaseStr = input.toLowerCase(); // Convert to lowercase to handle both cases
+        String lowerCaseStr = newInput.toLowerCase(); // Convert to lowercase to handle both cases
         String vowels = "aeiouy";
         int indexOfFirstVowel = 0;
 
-        // To check for a word starting with a vowel
-        for(i = 0; i < 6; i++){
-            if(vowelTest.indexOf(i) != -1){
-                result = input + "ay";
-            } else {
-                // To find the index of where the first vowel in a word is
-                for (i = 0; i < lowerCaseStr.length(); i++) {
-                    char currentChar = lowerCaseStr.charAt(i);
-                    if (vowels.indexOf(currentChar) != -1) {
-                        indexOfFirstVowel = i; // Return the index of the first vowel found
-                        break;
-                    }
+            // To check for a word starting with a vowel
+            if(vowels.indexOf(firstLetter) != -1){
+                result = newInput + "ay";
+                return result;
+            }  
+            // To find the index of where the first vowel in a word is
+            for (i = 0; i < lowerCaseStr.length(); i++) {
+                char currentChar = lowerCaseStr.charAt(i);
+                if (vowels.indexOf(currentChar) != -1) {
+                    indexOfFirstVowel = i; // Return the index of the first vowel found
+                    break;
                 }
             }
+        String firstPart = lowerCaseStr.substring(0, indexOfFirstVowel);
+        String secondPart = lowerCaseStr.substring(indexOfFirstVowel);
+        result = secondPart + firstPart;
+        String answer = "";
+
+        if(upperCaseCount > 0){
+            j = 0;
+            for(i = 0; i < length; i++){
+                if(j < upperCaseLetterAry.length && i == upperCaseLetterAry[j]){
+                    answer = answer + String.valueOf(result.charAt(upperCaseLetterAry[j])).toUpperCase();
+                    j++;
+                    continue;
+                }
+                answer = answer + String.valueOf(result.charAt(i));
+            }
+            return answer + "ay" + tail;
         }
 
-        String firstPart = input.substring(0, indexOfFirstVowel);
-        String secondPart = input.substring(indexOfFirstVowel);
-        String firstPartr = "";
-        String secondPartr = "";
-        result = secondPart + firstPart;
-
-        /*if(upperCaseCount == 1){
-            result = result.replace(result.indexOf(index), Character.toUpperCase(result.indexOf(index)));
-            firstPartr = result.substring(0, index - 1);
-            secondPartr = result.substring(index);
-            result = firstPartr + letter1 + secondPartr + "ay";
-            return result;
-        }*/
-
-        return result + "ay";
+        return result + "ay" + tail;
     }
 
     private static String SentencePigLatinifyer(String input) {
