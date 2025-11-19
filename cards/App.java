@@ -9,6 +9,6 @@ public class App {
         //table.startPlaying();
         
         Deck deck = new Deck();
-        deck.shuffle();
+        deck.print(5);
     }
 }
