@@ -10,6 +10,7 @@ public class GameOfLife implements Board {
     public GameOfLife(int x, int y)
     {
         // Construct a 2d array of the given x and y size.
+        board = new int[x][y];
     }
 
     // Set values on the board
@@ -24,6 +25,9 @@ public class GameOfLife implements Board {
     // Run the simulation for a number of turns
     public void run(int turns) {
         // call step the number of times requested
+        for(int i = 0; i < turns; i++){
+            step();
+        }
     }
 
     // Step the simulation forward one turn.
@@ -38,6 +42,42 @@ public class GameOfLife implements Board {
         int count = 0;
         // count the number of neighbors the cell has
         // use the get(x,y) method to read any board state you need.
+
+        //iterating through the array to check the 8 cells around the selected coordinates
+        /*for(int i = x; i < board.length; i++){
+            for(int j = y; j < board[0].length; j++){
+                if()
+            }
+        }*/
+
+        int i = x - 1;
+        int j = y - 1;
+
+        for(int p = 0; p < 3; p++){
+            if(board[i][j] == 1){
+                count++;
+            }
+            j++;
+        }
+
+        i = x;
+        j = y - 1;
+        for(int p = 0; p < 2; p++){
+            if(board[i][j] == 1){
+                count++;
+            }
+            j = j + 2;
+        }
+
+        i = x + 1;
+        j = y - 1;
+        for(int p = 0; p < 2; p++){
+            if(board[i][j] == 1){
+                count++;
+            }
+            j++;;
+        }
+
         return count;
     }
 
