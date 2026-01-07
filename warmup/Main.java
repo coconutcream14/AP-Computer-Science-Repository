@@ -11,5 +11,6 @@ public class Main {
             }
         }
         System.out.println(sum);
+        //Done with the assignment
     }
 }
