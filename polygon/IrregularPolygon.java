@@ -40,6 +40,17 @@ public class IrregularPolygon {
     public double area() {
         // TODO: Calculate the area.
         Double area = 0.0;
+        double sum1 = 0;
+        double sum2 = 0;
+        for(int i = 0; i < myPolygon.size() - 1; i++){
+            sum1 = sum1 + myPolygon.get(i).getX() * myPolygon.get(i + 1).getY();
+        }
+        sum1 = sum1 + myPolygon.getLast().getX() * myPolygon.getFirst().getY();
+        for (int i = 0; i < myPolygon.size() - 1; i++) {
+            sum2 = sum2 + myPolygon.get(i).getY() * myPolygon.get(i + 1).getX();
+        }
+        sum2 = sum2 + myPolygon.getLast().getY() * myPolygon.getFirst().getX();
+        area = 0.5 * (sum1 - sum2);
         return area;
     }
 
