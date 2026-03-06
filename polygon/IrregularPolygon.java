@@ -60,8 +60,40 @@ public class IrregularPolygon {
         try {
             // TODO: Draw the polygon.
             // Documents: https://pavao.org/compsci/gpdraw/html/gpdraw/DrawingTool.html
-            //DrawingTool myDrawingTool = new DrawingTool(new SketchPad(500, 500));
-            //myDrawingTool.move(50, 50);
+            double minX = myPolygon.getFirst().getX();
+            double maxX = myPolygon.getFirst().getX();
+            double minY = myPolygon.getFirst().getY();
+            double maxY = myPolygon.getFirst().getY();
+            int i = 0;
+            for(i = 1; i < myPolygon.size(); i++){
+                if(myPolygon.get(i).getX() < minX){
+                    minX = myPolygon.get(i).getX();
+                } else if(myPolygon.get(i).getX() > maxX){
+                    maxX = myPolygon.get(i).getX();
+                }
+                if(myPolygon.get(i).getY() < minY) {
+                    minY = myPolygon.get(i).getX();
+                } else if (myPolygon.get(i).getY() > maxY) {
+                    maxY = myPolygon.get(i).getX();
+                }
+            }
+            double ShapeWidth = maxX - minX;
+            double ShapeHeight = maxY - minY;
+            double maxdimension = Math.max(ShapeWidth, ShapeHeight);
+            int p = 100; //(int) Math.max(maxdimension * 0.20, 60);
+            //int menuSpace = 60;
+            int CanvasWidth = (int) (ShapeWidth + (2 * p));
+            int CanvasHeight = (int) (ShapeHeight + (2 * p)/* + menuSpace*/);
+            DrawingTool myPen = new DrawingTool(new SketchPad(CanvasWidth, CanvasHeight));
+            double CenterX = (minX + maxX) / 2.0;
+            double CenterY = (minY + maxY) / 2.0;
+            myPen.up();
+            myPen.move(myPolygon.getFirst().getX() - CenterX, (myPolygon.getFirst().getY() - CenterY)); //- (menuSpace / 2));
+            myPen.down();
+            for(i = 1; i < myPolygon.size(); i++){
+                myPen.move(myPolygon.get(i).getX() - CenterX, (myPolygon.get(i).getY() - CenterY)); //- (menuSpace / 2));
+            }
+            myPen.move(myPolygon.getFirst().getX() - CenterX, (myPolygon.getFirst().getY() - CenterY)); //- (menuSpace / 2));
         } catch (java.awt.HeadlessException e) {
             System.out.println("Exception: No graphics support available.");
         }
