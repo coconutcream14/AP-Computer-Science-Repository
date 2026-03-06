@@ -50,7 +50,7 @@ public class IrregularPolygon {
             sum2 = sum2 + myPolygon.get(i).getY() * myPolygon.get(i + 1).getX();
         }
         sum2 = sum2 + myPolygon.getLast().getY() * myPolygon.getFirst().getX();
-        area = 0.5 * (sum1 - sum2);
+        area = Math.abs(0.5 * (sum1 - sum2));
         return area;
     }
 
