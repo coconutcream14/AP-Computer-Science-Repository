@@ -157,6 +157,9 @@ public class Main {
          */
         // Step 3:
         int value = 0;
+        int pileSize1 = 0;
+        int pileSize2 = 0;
+        int gameOver = 0;
         while (true) {
             boolean moveMadeThisRound = false;
 
@@ -193,11 +196,15 @@ public class Main {
                         x = -1;
                     }
                 }
+                if(pileSize1 == 1){
+                    pileSize1 = 0;
+                }
                 // ending turn: drawing a card
                 // p1.add(new ArrayList<Integer>());
                 if (drawPile.size() > 0) {
                     p1.add(drawPile.get(0));
                     drawPile.remove(0);
+                    pileSize1 = drawPile.size();
                 }
             }
             // Player 2's turn
@@ -229,15 +236,30 @@ public class Main {
                 }
                 // ending turn: drawing a card
                 // p2.add(new ArrayList<Integer>());
+                if(pileSize2 == 1){
+                    pileSize2 = 0;
+                }
                 if (drawPile.size() > 0) {
                     p2.add(drawPile.get(0));
                     drawPile.remove(0);
+                    pileSize2 = drawPile.size();
                 }
+                
             }
             value++;
-            if(!moveMadeThisRound && drawPile.isEmpty()){
-                break;
+            if(drawPile.isEmpty()){
+                if(!moveMadeThisRound){
+                    gameOver++;
+                } else {
+                    gameOver = 0;
+                }
+                if(gameOver == 3){
+                    break;
+                }
             }
+            /*if(!moveMadeThisRound && drawPile.isEmpty() && (pileSize1 == 0 && pileSize2 == 0)){
+                break;
+            }*/
         }
         String result = "";
         for (i = 0; i < 8; i++) {
